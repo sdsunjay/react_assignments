@@ -4,12 +4,9 @@ import { Route } from 'react-router-dom';
 
 import './Blog.module.css';
 import Posts from './Posts/Posts';
+import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
-
-    constructor(props) {
-      super(props);
-    }
 
     render () {
       return (
@@ -24,6 +21,7 @@ class Blog extends Component {
           </header>
         {/* <Route path="/" exact render={() => <h1>Home</h1>}/>*/}
         <Route path="/" exact component={Posts}/>
+        <Route path="/new-post" exact component={NewPost}/>
         </div>
       );
     }
