@@ -6,6 +6,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal';
+import axios from '../../axios-orders';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -80,7 +81,26 @@ class BurgerBuilder extends Component {
     this.setState({purchasing: false});
   }
   purchaseContinueHandler = () => {
-    alert('you continue!');
+    //alert('you continue!');
+    const order = {
+      ingredients: 'this.state.ingredients',
+      // we should check this price on the server, dont want it manipulated
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Sunjay Dhama',
+        address: {
+          line1: '34 Elm St.',
+          line2: 'Apt 1',
+          zip: '00000',
+          state: 'CA'
+        },
+        email: 'sunjay@example.com'
+      },
+      deliveryMethod: 'fastest'
+    }
+    axios.post('orders.json', order)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
   }
 
   render () {
@@ -98,7 +118,7 @@ class BurgerBuilder extends Component {
             ingredients={this.state.ingredients}
             price={this.state.totalPrice}
             purchaseCancelled={this.purchaseCancelHandler}
-            purchaseContinueHandler={this.purchaseContinuedHandler}
+            purchaseContinueHandler={this.purchaseContinueHandler}
             />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
