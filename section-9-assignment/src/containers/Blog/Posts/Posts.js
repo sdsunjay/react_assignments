@@ -12,43 +12,45 @@ class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      error: false
     }
   }
 
-
   componentDidMount() {
     console.log(this.props);
-    axios.get('/posts')
-      .then(response => {
-        const posts = response.data.slice(0,4);
-        const updatedPosts = posts.map(post => {
+      axios.get( '/posts' )
+      .then( response => {
+        const postsTemp = response.data.slice( 0, 4 );
+        const updatedPosts = postsTemp.map( post => {
           return {
             ...post,
             author: 'Max'
           }
-        })
-        this.setState({posts: updatedPosts});
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+                } );
+                this.setState( { posts: updatedPosts } );
+                // console.log( response );
+            } )
+            .catch( error => {
+                console.log( error );
+                // this.setState({error: true});
+            } );
+
+    }
 
   postSelectedHandler = (id) => {
       //this.setState({selectedPostId: id});
-      this.props.history.push({pathname: '/' + id});
-      //this.props.history.push('/' + id);
+      // this.props.history.push({pathname: '/' + id});
+      this.props.history.push( '/posts/' + id );
   }
 
   render () {
 
-    //let posts = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
-    //if(!this.state.error){
-      let posts = this.state.posts.map(post => {
+    let posts = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
+    if(!this.state.error){
+      posts = this.state.posts.map(post => {
         return (
-          //<Link key={post.id} to={'/' + post.id}>
+          //<Link key={post.id} to={'/posts/' + post.id}>
             <Post
               key={post.id}
               title={post.title}
@@ -57,16 +59,16 @@ class Posts extends Component {
           //</Link>
         );
       });
-    //}
+    }
 
     return (
       <div>
-        <section className="Blog">
-        {posts}
-        </section>
-        <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
+          <section className="Posts">
+              {posts}
+          </section>
+          <Route path={this.props.match.url + '/:id'} exact component={FullPost} />
       </div>
-    )
+    );
   }
 }
 
