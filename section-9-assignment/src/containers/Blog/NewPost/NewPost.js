@@ -8,7 +8,8 @@ class NewPost extends Component {
     state = {
         title: '',
         content: '',
-        author: 'Max'
+        author: 'Max',
+        submitted: false
     }
     componentDidMount() {
       console.log(this.props);
@@ -23,13 +24,23 @@ class NewPost extends Component {
       axios.post('/posts', post)
         .then(response => {
           console.log(response);
+          // pushing onto the history stack, adds to the stack
+          // redirect replaces the current page
+          this.setState(submitted: true);
+          //this.props.history.push('/posts');
         });
     }
 
     render () {
+
+      let redirect = null;
+      if(this.state.submitted) {
+        redirect = <Redirect to="/posts/" />
+      }
+
       return (
         <div className="NewPost">
-          <Redirect to="/posts/" />
+          {redirect}
           <h1>Add a Post</h1>
           <label>Title</label>
           <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
