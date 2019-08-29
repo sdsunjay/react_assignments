@@ -11,7 +11,7 @@ class Blog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loadedPost: null
+      auth: false
     }
   }
   render () {
@@ -38,7 +38,7 @@ class Blog extends Component {
         </header>
         {/* <Route path="/" exact render={() => <h1>Home</h1>}/>*/}
           <Switch>
-            <Route path="/new-post" exact component={NewPost}/>
+            {this.state.auth ? < Route path="/new-post" exact component={NewPost}/> : null}
             <Route path="/posts" component={Posts}/>
             <Redirect from="/" to="/posts" />
           </Switch>
