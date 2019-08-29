@@ -26,7 +26,7 @@ class NewPost extends Component {
           console.log(response);
           // pushing onto the history stack, adds to the stack
           // redirect replaces the current page
-          this.setState(submitted: true);
+          this.setState({submitted: true});
           //this.props.history.push('/posts');
         });
     }
