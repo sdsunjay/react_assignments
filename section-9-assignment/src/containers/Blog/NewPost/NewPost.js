@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import './NewPost.module.css';
 
@@ -32,7 +32,6 @@ class NewPost extends Component {
     }
 
     render () {
-
       let redirect = null;
       if(this.state.submitted) {
         redirect = <Redirect to="/posts/" />
