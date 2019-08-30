@@ -13,5 +13,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1"
   }
 }
