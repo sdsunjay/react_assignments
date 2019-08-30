@@ -22,7 +22,7 @@ class BurgerBuilder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ingredients: null,
+      ingredients: {'meat': 1},
       totalPrice: 4,
       purchaseable: false,
       purchasing: false,
@@ -87,34 +87,16 @@ class BurgerBuilder extends Component {
     this.setState({purchasing: false});
   }
   purchaseContinueHandler = () => {
-/**
-    this.setState({loading: true});
-    //alert('you continue!');
-    const order = {
-      ingredients: this.state.ingredients,
-      // we should check this price on the server, dont want it manipulated
-      price: this.state.totalPrice,
-      customer: {
-        name: 'Sunjay Dhama',
-        address: {
-          line1: '34 Elm St.',
-          line2: 'Apt 1',
-          zip: '00000',
-          state: 'CA'
-        },
-        email: 'sunjay@example.com'
-      },
-      deliveryMethod: 'fastest'
-    }
-    axios.post('/orders.json', order)
-    .then(response => {
-        this.setState({loading: false, purchasing: false});
-      })
-    .catch(error => {
-        this.setState({loading: false, purchasing: false});
-      });
-      */
-      this.props.history.push('/checkout');
+      const queryParams = [];
+      for(let i in this.state.ingredients) {
+        queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+      }
+      queryParams.push('price=' + this.state.totalPrice);
+      const queryString = queryParams.join('&');
+      this.props.history.push({
+        pathname: '/checkout',
+        search: '?' + queryString
+        });
     }
 
   render () {
