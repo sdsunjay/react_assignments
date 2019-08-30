@@ -51,15 +51,14 @@ class ContactData extends Component {
           },
           value: ''
         },
-        deliveryMethod: elementType: 'select',
+        deliveryMethod: {elementType: 'select'},
         elementConfig: {
           options: [
             {value: 'fastest', displayValue: 'Fastest'},
-            {value: 'cheapest', displayValue: 'Cheapest'},
+            {value: 'cheapest', displayValue: 'Cheapest'}
           ]
         },
         value: ''
-      },
       },
       loading: false
     }
@@ -85,14 +84,27 @@ class ContactData extends Component {
       }
 
   render () {
+
+    const formElementsArray = [];
+    for (let key in this.state.orderForm) {
+      formElementsArray.push({
+        id: key,
+        config: this.state.orderForm[key]
+      });
+    }
+
     let form = (
         <form>
-          <Input elementType="..." elementConfig="..." value="..." />
-          <Input inputtype="input" label="email" type="email" name="email" placeholder="Your Email" />
-          <Input inputtype="input" label="address" type="text" name="street" placeholder="Your Address" />
-          <Input inputtype="input" label="zipcode" type="text" name="postal" placeholder="Your Zipcode" />
+          {formElementsArray.map(formElement =>
+            (<Input
+              key={formElement.id}
+              elementType={formElement.config.elementType}
+              elementConfig={formElement.config.elementConfig}
+              value={formElement.config.value} />
+            )
+          )}
           <Button btntype="Success" clicked={this.orderHandler}>ORDER</Button>
-          </form>
+        </form>
         );
     if(this.state.loading) {
       form = <Spinner />;
