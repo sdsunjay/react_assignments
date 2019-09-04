@@ -33,11 +33,18 @@ export const subtract = (value) => {
   }
 };
 
-export const storeResult = (results) => {
+export const saveResult = (results) => {
   return {
     type: STORE_RESULT,
     results: results
+  };
+}
 
+export const storeResult = (results) => {
+  return dispatch => {
+    setTimeout( () => {
+      dispatch(saveResult(results));
+    }, 2000);
   }
 };
 
