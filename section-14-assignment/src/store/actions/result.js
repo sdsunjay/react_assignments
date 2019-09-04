@@ -8,6 +8,7 @@ export const increment = (value) => {
 };
 
 export const saveResult = (results) => {
+  //const updatedResult = +results * 2;
   return {
     type: actionTypes.STORE_RESULT,
     results: results
@@ -15,9 +16,12 @@ export const saveResult = (results) => {
 }
 
 export const storeResult = (results) => {
-  return dispatch => {
+  return (dispatch, getState) => {
     setTimeout( () => {
-      dispatch(saveResult(results));
+      // try not to call 'getState' in actions
+      // const oldCounter = getState().ctr.counter;
+      // console.log(oldCounter);
+      dispatch(saveResult(results))
     }, 2000);
   }
 };
