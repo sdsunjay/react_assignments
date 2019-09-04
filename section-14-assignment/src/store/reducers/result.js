@@ -5,15 +5,19 @@ const initialState = {
   results: []
 }
 
+const deleteResult = (state, action) => {
+  const updatedArray = state.results.filter( (result) => result.id !== action.resultId);
+  return updateObject(state, {results: updatedArray});
+}
+
 // Reducer
 const reducer = (state = initialState, action) => {
   switch(action.type) {
-    // put pure data transforming logic here
+    // Put pure data transforming logic here
     case actionTypes.STORE_RESULT:
       return updateObject(state, {results: state.results.concat({id: new Date(), value: action.results})});
     case actionTypes.DELETE_RESULT:
-      const updatedArray = state.results.filter( (result) => result.id !== action.resultId);
-      return updateObject(state, {results: updatedArray});
+      return deleteResult(state, action);
     default:
       return state;
   }
