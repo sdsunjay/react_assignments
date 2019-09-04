@@ -7,10 +7,6 @@ import ContactData from './ContactData/ContactData';
 
 class Checkout extends Component {
 
-    constructor(props) {
-      super(props);
-    }
-
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
