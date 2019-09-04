@@ -17,18 +17,11 @@ class BurgerBuilder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      purchasing: false,
-      loading: false,
-      error: false
+      purchasing: false
     }
   }
 
   componentWillMount() {
-    //axios.get('/ingredients.json')
-    //.then(response => { this.setState({ingredients: response.data})})
-    //.catch(error => {
-    //    this.setState({error: true, loading: false, purchasing: false});
-  //    });
   }
 
   updatePurchaseState = (ingredients) => {
@@ -61,7 +54,8 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0
     }
 
-    let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
+    // TODO fix this.state.error
+    let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <Spinner />;
     let orderSummary = <Spinner />;
 
     if (this.props.ings) {
@@ -83,9 +77,7 @@ class BurgerBuilder extends Component {
         purchaseCancelled={this.purchaseCancelHandler}
         purchaseContinueHandler={this.purchaseContinueHandler} />;
     }
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
+
     // {salad: true, meat: false, ...}
     return (
       <Aux>
