@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import classes from './Auth.module.css';
 import Button from '../../components/UI/Button/Button';
-import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
@@ -120,12 +119,25 @@ class Auth extends Component {
               changed={( event ) => this.inputChangedHandler( event, formElement.id )} />
           )
         );
+    if(this.props.loading) {
+      form = <Spinner />;
+    }
+
+    let errorMessage = null;
+
+    if(this.props.error) {
+      errorMessage = (
+        <p>{this.props.error.message}</p>
+      );
+    }
+
     return (
       <div className={classes.Auth}>
         <h4>Sign Up</h4>
+        {errorMessage}
         <form onSubmit={this.submitHandler}>
           {form}
-          <Button btnType="Success">Sign Up</Button>
+          <Button btnType="Success">{this.state.isSignUp ? 'SIGN UP' : 'SIGN IN'}</Button>
         </form>
         <Button
           btnType="Danger"
@@ -135,10 +147,18 @@ class Auth extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    loading: state.auth.loading,
+    error: state.auth.error
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (email, password, isSignUp) => dispatch(actions.auth(email, password, isSignUp)),
   }
 }
 
-export default connect(null, mapDispatchToProps)(withErrorHandler(Auth, axios));
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
