@@ -2,7 +2,6 @@ import * as actionTypes from './actionTypes';
 import axios from 'axios';
 
 export const authStart = () => {
-  console.log('AUTH START');
   return {
       type: actionTypes.AUTH_START
   };
@@ -55,7 +54,6 @@ export const auth = (email, password, isSignUp) => {
     }
     axios.post(url, authData)
     .then(response => {
-      //console.log(response);
       const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
       localStorage.setItem('token', response.data.idToken);
       localStorage.setItem('localId', response.data.localId);
@@ -83,7 +81,6 @@ export const authCheckState = () => {
     const expirationDate = new Date(localStorage.getItem('expirationDate'));
 
     if(expirationDate !== null && expirationDate > new Date()) {
-      console.log('expirationDate & Token exists');
       dispatch(authSuccess(token, localId));
       dispatch(checkAuthTimeout( (expirationDate.getTime() - new Date().getTime())/1000 ));
     } else {
