@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Transition } from 'react-transition-group';
 
 import "./App.css";
 import Modal from "./components/Modal/Modal";
@@ -7,7 +8,8 @@ import List from "./components/List/List";
 
 class App extends Component {
   state = {
-    modalIsOpen: false
+    modalIsOpen: false,
+    showBlock: false
   }
 
   showModal = () => {
@@ -18,10 +20,49 @@ class App extends Component {
     this.setState({modalIsOpen: false});
   }
 
+
   render() {
+    const duration = 1000;
+
+  const defaultStyle = {
+    transition: `opacity ${duration}ms ease-in-out`,
+    opacity: 0,
+  }
+
+  const transitionStyles = {
+    entering: { opacity: 1 },
+    entered:  { opacity: 1 },
+    exiting:  { opacity: 0 },
+    exited:  { opacity: 0 },
+  };
+
     return (
       <div className="App">
         <h1>React Animations</h1>
+        <button className="Button"
+          onClick={() =>
+            this.setState(prevState =>
+               ({showBlock: !prevState.showBlock}))}>
+               Toggle</button>
+        <br />
+        <Transition
+          in={this.state.showBlock}
+          timeout={duration}
+          mountOnEnter
+          unmountOnExit>
+          {state => (
+            <div
+              style={{
+                backgroundColor: 'red',
+                width: 100,
+                height: 100,
+                margin: 'auto',
+                transition: 'opacity 1s ease-out',
+                opacity: state === 'exiting' ? 0 : 1
+              }}
+              ></div>
+          )}
+        </Transition>
         {this.state.modalIsOpen ? <Modal show={this.state.modalIsOpen} closed={this.closeModal} /> : null}
         {this.state.modalIsOpen ? <Backdrop show={this.state.modalIsOpen} /> : null}
         <button className="Button" onClick={this.showModal}>Open Modal</button>
