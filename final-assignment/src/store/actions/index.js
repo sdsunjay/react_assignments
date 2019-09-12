@@ -1,4 +1,6 @@
 export {
+  fetchIngredientsFailed,
+  setIngredients,
   addIngredient,
   removeIngredient,
   initIngredients
